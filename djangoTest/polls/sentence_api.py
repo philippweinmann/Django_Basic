@@ -1,11 +1,9 @@
 from rest_framework import serializers, viewsets
 
 from .models import Sentence
-from .statement_api import StatementSerializer
 
 
 class SentenceSerializer(serializers.ModelSerializer):
-    # content_object = StatementSerializer()
 
     class Meta:
         model = Sentence
