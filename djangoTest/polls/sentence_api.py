@@ -1,17 +1,20 @@
 from rest_framework import serializers, viewsets
 
 from .models import Sentence, Question, Statement
+from .question_api import QuestionSerializer
+from .statement_api import StatementSerializer
 
 
 class ContentObjectRelatedField(serializers.RelatedField):
     def to_representation(self, value):
         if isinstance(value, Question):
-            return 'Q: ' + value.question_text
+            serializer = QuestionSerializer(value)
         elif isinstance(value, Statement):
-            return 'S: ' + value.statement_text
+            serializer = StatementSerializer(value)
         else:
             raise Exception('Unexpected type of tagged object')
 
+        return serializer.data
 
 class SentenceSerializerRead(serializers.ModelSerializer):
     content_object = ContentObjectRelatedField(read_only=True)
